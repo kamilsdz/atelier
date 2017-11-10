@@ -27,8 +27,6 @@
       save
     <% end %>
 
-    <%= button_tag books_path, method: :get, class: 'btn btn--cancel' do %>
-      cancel
-    <% end %>
+    <%= link_to 'cancel', books_path, class: 'btn btn--cancel' %>
   <% end %>
 </div>
