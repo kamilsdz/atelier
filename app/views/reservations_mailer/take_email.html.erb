@@ -1,0 +1,4 @@
+<h1>Cześć <%= @user.email %></h1>
+<h2><strong>Wypożyczyłeś książkę: </strong><%= link_to @book.title, book_url(@book.id, host: "localhost:3000") %></h2>
+<h3><strong>Data wypożyczenia:</strong> <%= @reservation.created_at %></h3>
+<h3><strong>Należy ją zwrócić do:</strong> <%= @reservation.expires_at %></h3>

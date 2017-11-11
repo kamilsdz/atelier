@@ -8,6 +8,7 @@ class ReservationsController < ApplicationController
 
   def take
     book.take(current_user) if book.can_take?(current_user)
+    ReservationsMailer.take_email(current_user, book).deliver_now
     redirect_to(book_path(book.id))
   end
 
