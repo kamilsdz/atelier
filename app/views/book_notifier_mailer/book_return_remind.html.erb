@@ -1,0 +1,4 @@
+<h1>Cześć <%= @borrower.email %>!</h1>
+<h2>Twoja rezerwacja na <strong><%= @book.title %></strong> wygasa <%= @reservation.expires_at %></h2>
+</br/>
+<%= link_to "Przejdź do książki", book_url(@book.id, host: "localhost:3000") %>
