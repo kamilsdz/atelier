@@ -7,6 +7,8 @@ end
 
 gem 'devise'
 gem 'pry'
+gem 'sidekiq'
+
 
 gem 'rails', '~> 5.1.2'
 gem 'pg'

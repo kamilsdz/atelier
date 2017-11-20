@@ -12,4 +12,8 @@ Rails.application.routes.draw do
   get 'google-isbn', to: 'google_books#show'
 
   resources :books
+
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+  
 end

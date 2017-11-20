@@ -56,14 +56,14 @@ Rails.application.configure do
 
   # mailcatcher config
   config.action_mailer.delivery_method = :smtp
-  #config.action_mailer.smtp_settings = { address: "localhost", port: 1025 }
-  config.action_mailer.smtp_settings = {
-  address:              'smtp.gmail.com',
-  port:                 587,
-  domain:               'gmail.com',
-  user_name:            'dev.inror@gmail.com',
-  password:             'xxxxxx',
-  authentication:       :plain,
-  enable_starttls_auto: true
-  }
+  config.action_mailer.smtp_settings = { address: "localhost", port: 1025 }
+  # config.action_mailer.smtp_settings = {
+  # address:              'smtp.gmail.com',
+  # port:                 587,
+  # domain:               'gmail.com',
+  # user_name:            'dev.inror@gmail.com',
+  # password:             'xxxxxx',
+  # authentication:       :plain,
+  # enable_starttls_auto: true
+  #}
 end
