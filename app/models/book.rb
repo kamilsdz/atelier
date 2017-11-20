@@ -3,14 +3,17 @@ class Book < ApplicationRecord
   has_many :borrowers, through: :reservations, source: :user
   belongs_to :category
 
+  validates :title, :isbn, :category_name, presence: true
+
   # statuses: AVAILABLE, TAKEN, RESERVED, EXPIRED, CANCELED, RETURNED
+
 
   def category_name
     category.try(:name)
   end
 
   def category_name=(name)
-    self.category = Category.create(name: name)
+    self.category = Category.find_or_create_by(name: name)
   end
 
   def can_take?(user)
