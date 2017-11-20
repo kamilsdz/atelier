@@ -1,0 +1,4 @@
+Cześć <%= @borrower.email %>!
+Książka na którą czekasz -  <%= @book.title %>.. Już jutro będzie dostępna!
+
+<%= link_to "Przejdź do książki", book_url(@book.id, host: "localhost:3000") %>

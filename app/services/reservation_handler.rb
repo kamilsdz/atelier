@@ -33,6 +33,7 @@ class ReservationHandler
 private
 attr_reader :user
 
+
 def next_in_queue(book)
   book.reservations.where(status: 'RESERVED').order(created_at: :asc).first
 end
