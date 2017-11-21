@@ -20,6 +20,7 @@ class BooksController < ApplicationController
      render template: 'books/filter', locals: { books: filter_books }
   end
 
+
   private
 
   def filter_params
@@ -31,6 +32,7 @@ class BooksController < ApplicationController
 
   def filter_books
     Book.where(filter_params)
+    #binding.pry
   end
 
   def category
