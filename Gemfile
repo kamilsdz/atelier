@@ -9,6 +9,7 @@ gem 'devise'
 gem 'pry'
 gem 'sidekiq'
 gem 'whenever'
+gem 'active_hash'
 
 
 gem 'rails', '~> 5.1.2'

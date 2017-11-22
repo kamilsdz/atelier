@@ -18,9 +18,12 @@
       <% end %>
     </tbody>
   </table>
+  <br/>
+  <h2>Books in similar categories:</h2>
+  <%= render partial: 'books/elements/similar_categories' %>
+</br/>
   <%= link_to new_book_path, class: 'btn' do %>
     <i class="fa fa-plus-circle"></i>
     add book
   <% end %>
 </main>
-
