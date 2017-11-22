@@ -23,5 +23,9 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
-
+  resources :books do
+    collection do
+      get 'by_category/:name', action: :by_category
+    end
+  end
 end
