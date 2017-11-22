@@ -1,0 +1,7 @@
+defaults:
+
+production:
+
+development:
+  google_client_id: "id"
+  google_client_secret: "secret"
