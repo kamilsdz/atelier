@@ -25,6 +25,7 @@ class BooksController < ApplicationController
     @category = ::Category.find_by(name: params[:name])
   end
 
+
   private
 
   def filter_params

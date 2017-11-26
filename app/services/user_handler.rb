@@ -11,4 +11,9 @@ def User.from_omniauth(access_token)
   end
   user
 end
+
+def is_adult?
+  User.where(DateTime.now - :birth_date).to_i >= 6570
+end
+
 end

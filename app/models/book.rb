@@ -47,6 +47,13 @@ class Book < ApplicationRecord
     reservations.find_by(user: user, status: 'RESERVED').nil?
   end
 
+  # def can_see?
+  #   if (Book.find_by(id: id).category.for_adult = true)
+  #     pry.binding
+  #     (Date.today - current_user.age).to_i >= 6570
+  #   end
+  # end
+
   def reserve(user)
     return unless can_reserve?(user)
 

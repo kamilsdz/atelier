@@ -7,8 +7,4 @@ class UsersController < ApplicationController
     # profil usera
   end
 
-  def is_adult?
-        (DateTime.now - :birth_date).to_i >= 6570
-  end
-  
 end
