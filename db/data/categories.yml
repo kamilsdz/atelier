@@ -1,0 +1,65 @@
+category_001:
+  id: 1
+  name: thriller
+  similar_categories: [horror, mystery, action]
+  for_adult: true
+category_002:
+  id: 2
+  name: horror
+  similar_categories: [thriller, mystery]
+  for_adult: true
+category_003:
+  id: 3
+  name: mystery
+  similar_categories: [thriller, horror, action]
+  for_adult: false
+category_004:
+  id: 4
+  name: action
+  similar_categories: [thriller, mystery]
+  for_adult: false
+category_005:
+  id: 5
+  name: science
+  similar_categories: [math, encyclopedias]
+  for_adult: false
+category_006:
+  id: 6
+  name: math
+  similar_categories: [science]
+  for_adult: false
+category_007:
+  id: 7
+  name: encyclopedias
+  similar_categories: [science]
+  for_adult: false
+category_008:
+  id: 8
+  name: history
+  similar_categories: [journals, biographies, autobiographies]
+  for_adult: false
+category_009:
+  id: 9
+  name: journals
+  similar_categories: [biographies, autobiographies]
+  for_adult: false
+category_010:
+  id: 10
+  name: biographies
+  similar_categories: [journals, history, autobiographies]
+  for_adult: false
+category_011:
+  id: 11
+  name: autobiographies
+  similar_categories: [journals, biographies, history]
+  for_adult: false
+category_012:
+  id: 12
+  name: Ebook
+  similar_categories: [journals, biographies, history]
+  for_adult: false
+category_013:
+  id: 13
+  name: Książka
+  similar_categories: [journals, biographies, history]
+  for_adult: false

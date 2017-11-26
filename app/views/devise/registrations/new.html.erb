@@ -22,6 +22,11 @@
       <%= f.password_field :password_confirmation, autocomplete: "off" %>
     </div>
 
+    <div class="field">
+      <%= f.label 'age (yyy-mm-dd)' %>
+      <%= f.date_field :age, autocomplete: "off" %>
+    </div>
+
     <div class="actions">
       <%= f.submit "Sign up", class: "btn" %>
     </div>

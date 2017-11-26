@@ -9,6 +9,10 @@ gem 'devise'
 gem 'pry'
 gem 'sidekiq'
 gem 'whenever'
+gem 'active_hash'
+gem 'omniauth-google-oauth2'
+gem 'a9n'
+gem 'omniauth-facebook'
 
 
 gem 'rails', '~> 5.1.2'

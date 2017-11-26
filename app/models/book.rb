@@ -1,6 +1,7 @@
 class Book < ApplicationRecord
   has_many :reservations
   has_many :borrowers, through: :reservations, source: :user
+  extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :category
 
   validates :title, :isbn, :category_name, presence: true
@@ -13,7 +14,7 @@ class Book < ApplicationRecord
   end
 
   def category_name=(name)
-    self.category = Category.find_or_create_by(name: name)
+    self.category = Category.where(name: name).first_or_initialize
   end
 
   def can_take?(user)
@@ -45,6 +46,13 @@ class Book < ApplicationRecord
   def can_reserve?(user)
     reservations.find_by(user: user, status: 'RESERVED').nil?
   end
+
+  # def can_see?
+  #   if (Book.find_by(id: id).category.for_adult = true)
+  #     pry.binding
+  #     (Date.today - current_user.age).to_i >= 6570
+  #   end
+  # end
 
   def reserve(user)
     return unless can_reserve?(user)
