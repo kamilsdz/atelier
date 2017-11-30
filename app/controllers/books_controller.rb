@@ -45,7 +45,11 @@ class BooksController < ApplicationController
   end
 
   def load_books
-    @books = Book.all
+    #  if (Date.today - current_user.age).to_i >= 6570
+       @books = Book.all
+    #  else
+    #    @books = Book.not_for_adult
+    #  end
   end
 
   def load_book

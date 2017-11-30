@@ -3,9 +3,10 @@ class Book < ApplicationRecord
   has_many :borrowers, through: :reservations, source: :user
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :category
+  scope :not_for_adult, -> {where('category_id IN (?)', Category.for_adults.map(&:id))}
+  #scope :category, {joins(:category).where('category_id' => 'id')}
 
   validates :title, :isbn, :category_name, presence: true
-
   # statuses: AVAILABLE, TAKEN, RESERVED, EXPIRED, CANCELED, RETURNED
 
 
@@ -30,15 +31,17 @@ class Book < ApplicationRecord
     else
       perform_expiration_worker(reservations.create(user: user, status: 'TAKEN'))
     end
-  end
-
-  def can_give_back?(user)
-    reservations.find_by(user: user, status: 'TAKEN').present?
+    tap {|reservation|
+      notify_user_calendar(reservation)
+    }
   end
 
   def give_back
     ActiveRecord::Base.transaction do
-      reservations.find_by(status: 'TAKEN').update_attributes(status: 'RETURNED')
+      reservations.find_by(status: 'TAKEN').tap { |reservation|
+        reservation.update_attributes(status: 'RETURNED')
+      notify_user_calendar(reservation)
+      }
       next_in_queue.update_attributes(status: 'AVAILABLE') if next_in_queue.present?
     end
   end
@@ -46,13 +49,6 @@ class Book < ApplicationRecord
   def can_reserve?(user)
     reservations.find_by(user: user, status: 'RESERVED').nil?
   end
-
-  # def can_see?
-  #   if (Book.find_by(id: id).category.for_adult = true)
-  #     pry.binding
-  #     (Date.today - current_user.age).to_i >= 6570
-  #   end
-  # end
 
   def reserve(user)
     return unless can_reserve?(user)
@@ -65,6 +61,10 @@ class Book < ApplicationRecord
   end
 
   private
+
+  def notify_user_calendar(reservation)
+    UserCalendarNotifier.new(reservations.last.user).perform(reservations.last)
+  end
 
   def perform_expiration_worker(res)
     ::BookReservationExpireWorker.perform_at(res.expires_at-1.day, res.book_id)

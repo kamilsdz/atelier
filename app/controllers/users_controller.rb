@@ -7,4 +7,9 @@ class UsersController < ApplicationController
     # profil usera
   end
 
+  def adult?
+      (Date.today - current_user.age).to_i >= 6570
+    end
+  end
+
 end

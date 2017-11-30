@@ -12,7 +12,7 @@ category_003:
   id: 3
   name: mystery
   similar_categories: [thriller, horror, action]
-  for_adult: false
+  for_adult: true
 category_004:
   id: 4
   name: action

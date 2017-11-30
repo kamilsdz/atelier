@@ -13,6 +13,7 @@ gem 'active_hash'
 gem 'omniauth-google-oauth2'
 gem 'a9n'
 gem 'omniauth-facebook'
+gem 'google-api-client', '0.8.2', require: 'google/api_client'
 
 
 gem 'rails', '~> 5.1.2'
