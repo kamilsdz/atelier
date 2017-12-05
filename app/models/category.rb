@@ -1,4 +1,4 @@
-class Category < ActiveYaml::Base
+  class Category < ActiveYaml::Base
   set_root_path "db/data"
 
   def books
@@ -9,8 +9,8 @@ class Category < ActiveYaml::Base
     ::Book.where(category_id: similar_ids)
   end
 
-  def self.for_adults
-    where(for_adult: true)
+  def self.not_for_adults
+    where(for_adult: false)
   end
 
   private

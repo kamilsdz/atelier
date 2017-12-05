@@ -10,6 +10,7 @@ class UserCalendarNotifier
   end
 
   def perform(reservation)
+
     find_calendar_by(A9n.default_calendar).tap {|cal|
       unless cal.nil?
         response = client.execute(api_params(cal, reservation))
@@ -75,5 +76,4 @@ class UserCalendarNotifier
     time.utc.strftime("%Y-%m-%dT%H:%M:%S%z")
   end
 
-  private
 end

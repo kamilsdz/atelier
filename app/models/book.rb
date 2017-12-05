@@ -3,8 +3,7 @@ class Book < ApplicationRecord
   has_many :borrowers, through: :reservations, source: :user
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :category
-  scope :not_for_adult, -> {where('category_id IN (?)', Category.for_adults.map(&:id))}
-  #scope :category, {joins(:category).where('category_id' => 'id')}
+  scope :not_for_adult, -> {where('category_id IN (?)', Category.not_for_adults.map(&:id))}
 
   validates :title, :isbn, :category_name, presence: true
   # statuses: AVAILABLE, TAKEN, RESERVED, EXPIRED, CANCELED, RETURNED
@@ -26,21 +25,25 @@ class Book < ApplicationRecord
     return unless can_take?(user)
 
     if available_reservation.present?
-      perform_expiration_worker(available_reservation)
       available_reservation.update_attributes(status: 'TAKEN')
+      perform_expiration_worker(available_reservation)
     else
-      perform_expiration_worker(reservations.create(user: user, status: 'TAKEN'))
+      #perform_expiration_worker(reservations.create(user: user, status: 'TAKEN'))
+      reservation = reservations.create(user: user, status: 'TAKEN')
+      #::UserCalendarNotifierWorker.perform_at(DateTime.now, reservation.id)
+      perform_notifier_worker(reservation)
     end
-    tap {|reservation|
-      notify_user_calendar(reservation)
-    }
+    # .tap {|reservation|
+    #   perform_notifier_worker(reservation)
+    #   #::UserCalendarNotifierWorker.perform_at(DateTime.now, reservation.id)
+    # }
   end
 
   def give_back
     ActiveRecord::Base.transaction do
       reservations.find_by(status: 'TAKEN').tap { |reservation|
         reservation.update_attributes(status: 'RETURNED')
-      notify_user_calendar(reservation)
+        perform_notifier_worker(reservation)
       }
       next_in_queue.update_attributes(status: 'AVAILABLE') if next_in_queue.present?
     end
@@ -61,13 +64,12 @@ class Book < ApplicationRecord
   end
 
   private
-
-  def notify_user_calendar(reservation)
-    UserCalendarNotifier.new(reservations.last.user).perform(reservations.last)
+  def perform_notifier_worker(reservation)
+    ::UserCalendarNotifierWorker.perform_at(DateTime.now, reservation.id)
   end
 
   def perform_expiration_worker(res)
-    ::BookReservationExpireWorker.perform_at(res.expires_at-1.day, res.book_id)
+    ::BookReservationExpireWorker.perform_at(DateTime.now+13.days, res.book_id)
   end
 
 

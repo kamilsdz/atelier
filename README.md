@@ -1,19 +1,18 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Atelier is an app to organize work in the library.
 
-Things you may want to cover:
+You can there:
 
-* Ruby version
+* Take or reserve book
 
-* System dependencies
+* Add new books to db
 
-* Configuration
+* Register new users with devise, Facebook or Google OAuth2
 
-* Database creation
+* Reminder about the date expiration of a book reservation via Google Calendar and mailer
 
-* Database initialization
+* Cron, sidekiq,
 
 * How to run the test suite
 
