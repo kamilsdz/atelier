@@ -2,8 +2,7 @@ class UserCalendarNotifierWorker
   include Sidekiq::Worker
 
   def perform(reservation_id)
-    reservation = Reservation.find(reservation_id)
-    notify_user_calendar(reservation)
+    notify_user_calendar(Reservation.find(reservation_id))
   end
 
   def notify_user_calendar(reservation)

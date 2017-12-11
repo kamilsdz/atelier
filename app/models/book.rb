@@ -28,25 +28,23 @@ class Book < ApplicationRecord
       available_reservation.update_attributes(status: 'TAKEN')
       perform_expiration_worker(available_reservation)
     else
-      #perform_expiration_worker(reservations.create(user: user, status: 'TAKEN'))
       reservation = reservations.create(user: user, status: 'TAKEN')
-      #::UserCalendarNotifierWorker.perform_at(DateTime.now, reservation.id)
-      perform_notifier_worker(reservation)
     end
-    # .tap {|reservation|
-    #   perform_notifier_worker(reservation)
-    #   #::UserCalendarNotifierWorker.perform_at(DateTime.now, reservation.id)
-    # }
+    .tap {|reservation|
+      perform_notifier_worker(reservation)
+      perform_expiration_worker(reservation)
+    }
   end
 
   def give_back
     ActiveRecord::Base.transaction do
       reservations.find_by(status: 'TAKEN').tap { |reservation|
         reservation.update_attributes(status: 'RETURNED')
-        perform_notifier_worker(reservation)
+        @taken = reservation
       }
       next_in_queue.update_attributes(status: 'AVAILABLE') if next_in_queue.present?
     end
+    perform_notifier_worker(@taken)
   end
 
   def can_reserve?(user)
@@ -71,11 +69,6 @@ class Book < ApplicationRecord
   def perform_expiration_worker(res)
     ::BookReservationExpireWorker.perform_at(DateTime.now+13.days, res.book_id)
   end
-
-
-  # def kill_worker(res)
-  #   TODO
-  # end
 
   def not_taken?
     reservations.find_by(status: 'TAKEN').nil?
